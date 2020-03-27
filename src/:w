@@ -1,0 +1,15 @@
+mod cli;
+mod module;
+
+use cli::Cli;
+use module::Url;
+use structopt::StructOpt;
+
+const URL_GET_CID: &'static str = "https://api.bilibili.com/x/player/pagelist?aid={}&jsonp=jsonp";
+
+fn main() {
+    let cli = Cli::from_args();
+    let url = cli.get_url();
+    println!("{}", url.get_url_string());
+    let url_get_cid = Url::from_str(format!(URL_GET_CID, url.get_aid()).as_str());
+}
