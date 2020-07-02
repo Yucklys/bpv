@@ -1,3 +1,4 @@
+use crate::{get_bvid, VideoInfo};
 use reqwest::Url;
 use structopt::StructOpt;
 
@@ -10,10 +11,15 @@ fn parse_url(src: &str) -> Url {
 pub struct Cli {
     #[structopt(name = "url", parse(from_str = parse_url))]
     url: Url,
+    #[structopt(name = "part", short = "p")]
+    part: Option<usize>,
 }
 
 impl Cli {
-    pub fn get_url(&self) -> &Url {
-        &self.url
+    pub fn get_video_info(&self) -> VideoInfo {
+        VideoInfo {
+            bvid: get_bvid(&self.url),
+            p: self.part,
+        }
     }
 }
